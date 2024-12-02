@@ -1,30 +1,25 @@
-public class Meeting extends Task {
-    protected String topic; // Тема встречи
-    protected String project; // Название проекта
-    protected String start; // Время начала
+package ru.netology.tasks;
 
-    public Meeting(int id, String topic, String project, String start) {
-        super(id); // Вызываем конструктор родительского класса
+public class Meeting extends Task {
+    private String topic;
+    private String project;
+
+    public Meeting(int id, String topic, String project) {
+        super(id);
         this.topic = topic;
         this.project = project;
-        this.start = start;
     }
 
     public String getTopic() {
-        return topic; // Геттер для темы
+        return topic;
     }
 
     public String getProject() {
-        return project; // Геттер для проекта
-    }
-
-    public String getStart() {
-        return start; // Геттер для времени начала
+        return project;
     }
 
     @Override
     public boolean matches(String query) {
-        // Проверяем, содержится ли запрос в теме или проекте
         return topic.contains(query) || project.contains(query);
     }
 }

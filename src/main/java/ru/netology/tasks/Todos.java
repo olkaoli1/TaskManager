@@ -1,28 +1,26 @@
-public class Todos {
-    private Task[] tasks = new Task[0]; // Массив для хранения задач
+package ru.netology.tasks;
 
-    private Task[] addToArray(Task[] current, Task task) {
-        Task[] tmp = new Task[current.length + 1];
-        System.arraycopy(current, 0, tmp, 0, current.length);
-        tmp[tmp.length - 1] = task;
-        return tmp;
-    }
+import java.util.ArrayList;
+import java.util.List;
+
+public class Todos {
+    private List<Task> tasks = new ArrayList<>();
 
     public void add(Task task) {
-        tasks = addToArray(tasks, task); // Добавляем задачу в массив
+        tasks.add(task);
     }
 
-    public Task[] findAll() {
-        return tasks; // Возвращаем все задачи
+    public List<Task> findAll() {
+        return tasks;
     }
 
-    public Task[] search(String query) {
-        Task[] result = new Task[0];
+    public List<Task> search(String query) {
+        List<Task> result = new ArrayList<>();
         for (Task task : tasks) {
             if (task.matches(query)) {
-                result = addToArray(result, task);
+                result.add(task);
             }
         }
-        return result; // Возвращаем массив подходящих задач
+        return result;
     }
 }

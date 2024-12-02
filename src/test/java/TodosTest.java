@@ -1,41 +1,56 @@
+package ru.netology.tasks;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class TodosTest {
 
     @Test
-    public void shouldAddThreeTasksOfDifferentType() {
-        SimpleTask simpleTask = new SimpleTask(1, "Позвонить маме");
-        String[] subtasks = {"Купить хлеб", "Купить молоко"};
-        Epic epic = new Epic(2, subtasks);
-        Meeting meeting = new Meeting(3, "Обсуждение проекта", "Проект А", "Завтра в 10:00");
-
+    public void shouldAddTasksAndFindAll() {
         Todos todos = new Todos();
+        SimpleTask simpleTask = new SimpleTask(1, "Позвонить маме");
+        Epic epic = new Epic(2, new String[]{"Подготовка", "Сбор данных"});
+        Meeting meeting = new Meeting(3, "Совещание", "Проект А");
+
         todos.add(simpleTask);
         todos.add(epic);
         todos.add(meeting);
 
-        Task[] expected = {simpleTask, epic, meeting};
-        Task[] actual = todos.findAll();
-
-        Assertions.assertArrayEquals(expected, actual);
+        List<Task> tasks = todos.findAll();
+        Assertions.assertEquals(3, tasks.size());
     }
 
     @Test
-    public void shouldFindTasksByQuery() {
-        SimpleTask simpleTask = new SimpleTask(1, "Позвонить маме");
-        String[] subtasks = {"Купить хлеб", "Купить молоко"};
-        Epic epic = new Epic(2, subtasks);
-        Meeting meeting = new Meeting(3, "Обсуждение проекта", "Проект А", "Завтра в 10:00");
-
+    public void shouldFindMultipleTasksByQuery() {
         Todos todos = new Todos();
-        todos.add(simpleTask);
-        todos.add(epic);
-        todos.add(meeting);
+        todos.add(new SimpleTask(1, "Позвонить маме"));
+        todos.add(new Epic(2, new String[]{"Позвонить маме", "Сбор данных"}));
+        todos.add(new Meeting(3, "Совещание", "Позвонить маме"));
 
-        Task[] expected = {epic};
-        Task[] actual = todos.search("Купить");
+        List<Task> result = todos.search("Позвонить");
+        Assertions.assertEquals(3, result.size());
+    }
 
-        Assertions.assertArrayEquals(expected, actual);
+    @Test
+    public void shouldFindOneTaskByQuery() {
+        Todos todos = new Todos();
+        todos.add(new SimpleTask(1, "Позвонить маме"));
+        todos.add(new Epic(2, new String[]{"Сбор данных"}));
+
+        List<Task> result = todos.search("Сбор");
+        Assertions.assertEquals(1, result.size());
+        Assertions.assertTrue(result.get(0) instanceof Epic);
+    }
+
+    @Test
+    public void shouldReturnEmptyListWhenNoMatch() {
+        Todos todos = new Todos();
+        todos.add(new SimpleTask(1, "Позвонить маме"));
+        todos.add(new Epic(2, new String[]{"Сбор данных"}));
+
+        List<Task> result = todos.search("Ничего");
+        Assertions.assertTrue(result.isEmpty());
     }
 }

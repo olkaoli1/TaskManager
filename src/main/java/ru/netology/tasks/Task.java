@@ -1,17 +1,20 @@
+package ru.netology.tasks;
+
 import java.util.Objects;
 
-public class Task {
-    protected int id; // Уникальный идентификатор задачи
+public abstract class Task {
+    protected int id;
 
     public Task(int id) {
-        this.id = id; // Присваиваем ID через конструктор
+        this.id = id;
     }
 
     public int getId() {
-        return id; // Геттер для ID
+        return id;
     }
 
-    // Переопределяем equals для корректного сравнения задач
+    public abstract boolean matches(String query);
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -20,14 +23,8 @@ public class Task {
         return id == task.id;
     }
 
-    // Переопределяем hashCode для работы с коллекциями
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    // Метод matches проверяет, подходит ли задача под запрос
-    public boolean matches(String query) {
-        return false; // Переопределяется в наследниках
     }
 }

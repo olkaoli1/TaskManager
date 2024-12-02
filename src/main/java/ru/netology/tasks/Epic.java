@@ -1,18 +1,19 @@
+package ru.netology.tasks;
+
 public class Epic extends Task {
-    protected String[] subtasks; // Массив подзадач
+    private String[] subtasks;
 
     public Epic(int id, String[] subtasks) {
-        super(id); // Вызываем конструктор родительского класса
-        this.subtasks = subtasks; // Присваиваем массив подзадач
+        super(id);
+        this.subtasks = subtasks;
     }
 
     public String[] getSubtasks() {
-        return subtasks; // Геттер для подзадач
+        return subtasks;
     }
 
     @Override
     public boolean matches(String query) {
-        // Проверяем, содержится ли запрос в одной из подзадач
         for (String subtask : subtasks) {
             if (subtask.contains(query)) {
                 return true;
